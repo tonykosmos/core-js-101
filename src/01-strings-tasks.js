@@ -269,8 +269,23 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
+function getCardId(value) {
+  let newStr;
+  let answer = 0;
+  if (value[0] === 'A') newStr = value.replace('A', '1');
+  else if (value[0] === 'J') newStr = value.replace('J', '11');
+  else if (value[0] === 'Q') newStr = value.replace('Q', '12');
+  else if (value[0] === 'K') newStr = value.replace('K', '13');
+  else newStr = value;
+  if (value.includes('♣')) newStr = newStr.replace('♣', '0');
+  if (value.includes('♦')) newStr = newStr.replace('♦', '13');
+  if (value.includes('♥')) newStr = newStr.replace('♥', '26');
+  if (value.includes('♠')) newStr = newStr.replace('♠', '39');
+  if (newStr.length === 4) answer = +(newStr[0] + newStr[1]) + +(newStr[2] + newStr[3]);
+  if (newStr.length === 3 && newStr[2] === '0') answer = +(newStr[0] + newStr[1]);
+  if (newStr.length === 3 && newStr[2] !== '0') answer = +newStr[0] + +(newStr[1] + newStr[2]);
+  if (newStr.length === 2) answer = +newStr[0] + +newStr[1];
+  return answer - 1;
 }
 
 
